@@ -1,8 +1,20 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class PrototypeBootstrap
 {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void RegisterSceneBootstrap()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        BuildPrototypeIfNeeded();
+    }
+
     private static void BuildPrototypeIfNeeded()
     {
         if (Object.FindObjectOfType<RunGameManager>() != null)
@@ -101,3 +113,4 @@ public static class PrototypeBootstrap
         runner.AddComponent<CharacterEvolution>();
     }
 }
+
