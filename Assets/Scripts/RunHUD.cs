@@ -39,7 +39,7 @@ public class RunHUD : MonoBehaviour
     {
         if (RunGameManager.Instance != null &&
             !RunGameManager.Instance.IsRunning &&
-            Input.GetKeyDown(KeyCode.R))
+            RunnerInput.RestartPressedThisFrame())
         {
             RunGameManager.Instance.RestartRun();
         }
