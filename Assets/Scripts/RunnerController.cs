@@ -27,9 +27,9 @@ public class RunnerController : MonoBehaviour
 
     private void Jump()
     {
-        Vector3 velocity = body.velocity;
+        Vector3 velocity = body.linearVelocity;
         velocity.y = 0f;
-        body.velocity = velocity;
+        body.linearVelocity = velocity;
         body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 

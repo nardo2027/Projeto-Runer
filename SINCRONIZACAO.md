@@ -10,4 +10,5 @@ O fluxo para em erros, divergencias ou mudancas locais antes do pull. Nao faz re
 
 Mantenha Assets (incluindo .meta), Packages e ProjectSettings no Git. Library, Temp, Logs, Builds e UserSettings ja estao ignorados.
 
-Versao declarada: Unity 6000.3.17f1. Instalada na verificacao: 6000.6.0f1. A abertura e a compatibilidade ainda precisam ser validadas. Prefira instalar a versao declarada pelo Hub para evitar conversao do projeto.
+Unity 6000.3.17f1 instalado e projeto importado. GitHub autenticado. Autor: Leonardo Souza. Use esta versao pelo Hub.
+
