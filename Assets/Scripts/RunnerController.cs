@@ -21,11 +21,7 @@ public class RunnerController : MonoBehaviour
         if (RunGameManager.Instance == null || !RunGameManager.Instance.IsRunning)
             return;
 
-        bool jumpPressed = Input.GetKeyDown(KeyCode.Space) ||
-                           Input.GetKeyDown(KeyCode.UpArrow) ||
-                           Input.GetKeyDown(KeyCode.W);
-
-        if (jumpPressed && IsGrounded())
+        if (RunnerInput.JumpPressedThisFrame() && IsGrounded())
             Jump();
     }
 
