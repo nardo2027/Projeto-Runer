@@ -44,6 +44,11 @@ public class ObstacleSpawner : MonoBehaviour
         obstacle.name = "Obstacle";
         obstacle.transform.position = new Vector3(spawnX, height * 0.5f, 0f);
         obstacle.transform.localScale = new Vector3(width, height, 1.5f);
+
+        BoxCollider collider = obstacle.GetComponent<BoxCollider>();
+        if (collider != null)
+            collider.isTrigger = true;
+
         obstacle.AddComponent<ObstacleMarker>();
         obstacle.AddComponent<WorldScroller>();
 
