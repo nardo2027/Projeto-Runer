@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,9 @@ public class RunGameManager : MonoBehaviour
     [SerializeField] private float speedPerLevel = 0.5f;
 
     public double DistanceMeters { get; private set; }
+    public double BestDistanceMeters { get; private set; }
     public long TotalPoints { get; private set; }
+    public long LastRunPoints { get; private set; }
     public int SpeedLevel { get; private set; }
     public bool IsRunning { get; private set; } = true;
 
@@ -19,7 +22,7 @@ public class RunGameManager : MonoBehaviour
 
     private const string PointsKey = "total_points";
     private const string SpeedLevelKey = "speed_level";
-    private const string BestDistanceKey = "best_distance";
+    private const string BestDistanceKey = "best_distance_meters";
 
     private void Awake()
     {
@@ -47,16 +50,14 @@ public class RunGameManager : MonoBehaviour
             return;
 
         IsRunning = false;
+        LastRunPoints = Math.Max(1L, (long)Math.Floor(DistanceMeters / 10d));
+        TotalPoints += LastRunPoints;
 
-        long earnedPoints = Mathf.FloorToInt((float)(DistanceMeters / 10d));
-        TotalPoints += earnedPoints;
-
-        double bestDistance = PlayerPrefs.GetFloat(BestDistanceKey, 0f);
-        if (DistanceMeters > bestDistance)
-            PlayerPrefs.SetFloat(BestDistanceKey, (float)DistanceMeters);
+        if (DistanceMeters > BestDistanceMeters)
+            BestDistanceMeters = DistanceMeters;
 
         SaveProgress();
-        Debug.Log($"Run ended: {DistanceMeters:F1} m | +{earnedPoints} points");
+        Debug.Log($"Run ended: {DistanceMeters:F1} m | +{LastRunPoints} points");
     }
 
     public bool BuySpeedUpgrade()
@@ -73,18 +74,31 @@ public class RunGameManager : MonoBehaviour
 
     public void RestartRun()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        if (activeScene.buildIndex >= 0)
+            SceneManager.LoadScene(activeScene.buildIndex);
+        else if (!string.IsNullOrWhiteSpace(activeScene.name))
+            SceneManager.LoadScene(activeScene.name);
     }
 
     private void LoadProgress()
     {
-        TotalPoints = long.Parse(PlayerPrefs.GetString(PointsKey, "0"));
+        if (!long.TryParse(PlayerPrefs.GetString(PointsKey, "0"), out long points))
+            points = 0;
+
+        if (!double.TryParse(PlayerPrefs.GetString(BestDistanceKey, "0"), out double bestDistance))
+            bestDistance = 0d;
+
+        TotalPoints = points;
+        BestDistanceMeters = bestDistance;
         SpeedLevel = PlayerPrefs.GetInt(SpeedLevelKey, 0);
     }
 
     private void SaveProgress()
     {
         PlayerPrefs.SetString(PointsKey, TotalPoints.ToString());
+        PlayerPrefs.SetString(BestDistanceKey, BestDistanceMeters.ToString("R"));
         PlayerPrefs.SetInt(SpeedLevelKey, SpeedLevel);
         PlayerPrefs.Save();
     }
