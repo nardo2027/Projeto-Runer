@@ -17,7 +17,7 @@ public static class PrototypeBootstrap
 
     private static void BuildPrototypeIfNeeded()
     {
-        if (Object.FindObjectOfType<RunGameManager>() != null)
+        if (Object.FindFirstObjectByType<RunGameManager>() != null)
             return;
 
         GameObject systems = new GameObject("Runer Prototype Systems");
@@ -28,6 +28,7 @@ public static class PrototypeBootstrap
         SetupLighting();
         CreateGround();
         CreateRunner();
+        systems.AddComponent<ParkEnvironment>();
 
         GameObject spawner = new GameObject("Obstacle Spawner");
         spawner.AddComponent<ObstacleSpawner>();
@@ -54,7 +55,7 @@ public static class PrototypeBootstrap
 
     private static void SetupLighting()
     {
-        if (Object.FindObjectOfType<Light>() != null)
+        if (Object.FindFirstObjectByType<Light>() != null)
             return;
 
         GameObject lightObject = new GameObject("Directional Light");
@@ -75,10 +76,10 @@ public static class PrototypeBootstrap
 
         Renderer renderer = ground.GetComponent<Renderer>();
         if (renderer != null)
-            renderer.material.color = new Color(0.16f, 0.18f, 0.20f);
+            renderer.enabled = false;
 
-        CreateLaneMarker(new Vector3(2f, 0.02f, 2.5f));
-        CreateLaneMarker(new Vector3(2f, 0.02f, -2.5f));
+
+
     }
 
     private static void CreateLaneMarker(Vector3 position)
@@ -110,7 +111,7 @@ public static class PrototypeBootstrap
 
         runner.AddComponent<RunnerController>();
         runner.AddComponent<RunnerCollision>();
-        runner.AddComponent<CharacterEvolution>();
+        runner.GetComponent<Renderer>().enabled = false;
+        runner.AddComponent<RunnerHumanVisual>();
     }
 }
-

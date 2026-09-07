@@ -10,7 +10,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void Start()
     {
-        ScheduleNextSpawn(6f);
+        ScheduleNextSpawn(30f);
     }
 
     private void Update()

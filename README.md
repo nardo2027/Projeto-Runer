@@ -88,3 +88,7 @@ Isso permite testar a mecânica antes de produzir os modelos 3D definitivos.
 
 ## Engine
 Recomendação atual: **Unity 6.3 LTS**, C#.
+
+## Versao 0.2 - Parque urbano
+
+Personagem humano 3D estilizado e articulado, com animacao procedural de corrida proporcional a velocidade e pose de salto ligada a fisica. Parque em segmentos reciclados com pista, gramado, arvores, bancos, postes e skyline ao por do sol. Modelos originais gerados em C#, sem assets externos. A primeira barreira tem um intervalo maior para preparar o salto. Controles: Espaco / seta para cima / W; R reinicia apos colisao. Abra uma cena vazia e pressione Play em Unity 6000.3.17f1.

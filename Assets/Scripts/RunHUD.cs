@@ -53,8 +53,8 @@ public class RunHUD : MonoBehaviour
 
         EnsureStyles();
 
-        GUI.Box(new Rect(15, 15, 330, 155), string.Empty);
-        GUI.Label(new Rect(30, 28, 300, 30), "PROJETO RUNER", titleStyle);
+        DrawPanel(new Rect(15, 15, 265, 155));
+        GUI.Label(new Rect(25, 28, 245, 30), "RUNER / PARQUE 0.2", titleStyle);
         GUI.Label(new Rect(30, 62, 300, 24), $"Distância: {FormatDistance(game.DistanceMeters)}", labelStyle);
         GUI.Label(new Rect(30, 88, 300, 24), $"Velocidade: {game.CurrentSpeed:F1} m/s", labelStyle);
         GUI.Label(new Rect(30, 114, 300, 24), $"Pontos: {game.TotalPoints:N0}", labelStyle);
@@ -84,7 +84,7 @@ public class RunHUD : MonoBehaviour
         float x = (Screen.width - width) * 0.5f;
         float y = (Screen.height - height) * 0.5f;
 
-        GUI.Box(new Rect(x, y, width, height), string.Empty);
+        DrawPanel(new Rect(x, y, width, height));
         GUI.Label(new Rect(x + 20, y + 20, width - 40, 40), "CORRIDA ENCERRADA", titleStyle);
         GUI.Label(new Rect(x + 20, y + 70, width - 40, 30), $"Distância: {FormatDistance(game.DistanceMeters)}", centerStyle);
         GUI.Label(new Rect(x + 20, y + 103, width - 40, 30), $"+ {game.LastRunPoints:N0} pontos", centerStyle);
@@ -131,6 +131,14 @@ public class RunHUD : MonoBehaviour
         return $"{kilometers / 1_000_000d:N2} milhões km";
     }
 
+    private static void DrawPanel(Rect area)
+    {
+        Color previous = GUI.color;
+        GUI.color = new Color(.045f, .075f, .10f, .94f);
+        GUI.DrawTexture(area, Texture2D.whiteTexture);
+        GUI.color = previous;
+    }
+
     private void EnsureStyles()
     {
         if (titleStyle != null)
@@ -138,7 +146,7 @@ public class RunHUD : MonoBehaviour
 
         titleStyle = new GUIStyle(GUI.skin.label)
         {
-            fontSize = 22,
+            fontSize = 18,
             fontStyle = FontStyle.Bold,
             alignment = TextAnchor.MiddleCenter
         };
